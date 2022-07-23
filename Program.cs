@@ -49,12 +49,33 @@ void mostrarCaracteristicas(Personaje P) {
     System.Console.WriteLine("Armadura: " + P.Armadura + "/10");
 }
  
-void combate(Personaje L, Personaje V) {
-    for (int i = 0; i < 3; i++)
+void combate(List<Personaje> Lista, Personaje L, Personaje V) {
+    do
     {
-        ataque(L,V);
-        ataque(V,L);
+        for (int i = 0; i < 3; i++)
+        {
+            ataque(L,V);
+            ataque(V,L);
+        } 
+    } while ((L.Salud == V.Salud) && (L.Salud > 0 && V.Salud > 0));
+    
+    if (L.Salud > V.Salud )
+    {
+        Lista.Remove(V);
+        bonusGanador(L);
+    } else {
+        Lista.Remove(L);
+        bonusGanador(V);
     }
+}
+
+void bonusGanador(Personaje P) {
+        P.Salud += 25;
+        P.Fuerza += new Random().Next(5,10);
+        P.Armadura += new Random().Next(1,3);
+        P.Destreza += new Random().Next(1,3);
+        P.Velocidad += new Random().Next(1,3);
+        P.Nivel += 1;
 }
 
 void ataque(Personaje L, Personaje V) {
@@ -84,35 +105,65 @@ class Caracteristicas {
         get{
             return velocidad; 
         } set {
-            velocidad = value;
+            if (value > 10)
+            {
+                velocidad = 10;
+            } else {
+                velocidad = value;
+            }
+            
         }
     }
     public int Destreza {
         get{
             return destreza;; 
         }set {
-            destreza = value;
+            if (value > 5)
+            {
+                destreza = 5;
+            } else {
+                destreza = value;
+            }
+            
         }
     }
     public int Fuerza {
         get{
             return fuerza; 
         } set {
-            fuerza = value;
+            if (value > 10)
+            {
+                fuerza = 10;
+            } else {
+                fuerza = value;
+            }
+            
         }
     }
     public int Nivel {
         get{
             return nivel; 
         } set {
-            nivel = value;
+            if (value > 10)
+            {
+                nivel = 10;
+            } else{
+                nivel = value;
+            }
+           
         }
     }
     public int Armadura {
         get{
             return armadura; 
         } set {
-            armadura = value;
+            if (value > 10)
+            {
+                armadura = 10;
+            } else {
+                armadura = value;
+            }
+            
         }
     }
     
@@ -164,7 +215,19 @@ class Personaje:Caracteristicas {
         get {
             return salud;
         } set {
-            salud = value;
+            if (value < 0)
+            {
+                salud = 0;
+            } else {
+                if (value > 100)
+                {
+                    salud = 100;
+                } else {
+                    salud = value; 
+                }
+               
+            }
+            
         }
     }
     public int Edad {
