@@ -2,11 +2,28 @@
 
 
 Personaje a = new Personaje();
+mostrarDatos(a);
+mostrarCaracteristicas(a);
 
-System.Console.WriteLine(a.Armadura + " " + a.Destreza + " " + a.Velocidad + " " + a.Fuerza + " " + a.Nivel);
 
 
 
+
+void mostrarDatos(Personaje P) {
+    System.Console.WriteLine("Mi nombre es " + P.Nombre);
+    System.Console.WriteLine("Soy " + P.Tipo);
+    System.Console.WriteLine("Me dicen " + P.Apodo);
+    System.Console.WriteLine("Nací el " + P.FechaNac.Date.ToShortDateString());
+    System.Console.WriteLine("Por lo que tengo " + P.Edad + " años");
+    System.Console.WriteLine("Mi salud está al " + P.Salud + "%");
+}
+void mostrarCaracteristicas(Personaje P) {
+    System.Console.WriteLine("Velocidad: " + P.Velocidad + "/10");
+    System.Console.WriteLine("Destreza: " + P.Destreza + "/5");
+    System.Console.WriteLine("Fuerza: " + P.Fuerza  + "/10");
+    System.Console.WriteLine("Nivel : " + P.Nivel + "/10");
+    System.Console.WriteLine("Armadura: " + P.Armadura + "/10");
+}
 class Caracteristicas {
     
     public int generarRandom(int min, int max) {
@@ -62,7 +79,7 @@ class Personaje:Caracteristicas {
     public Personaje() {
         this.nombre = nombresPosibles[generarRandom(0,6)];
         this.tipo = tipos[generarRandom(0,3)];
-        this.apodo = this.nombre.Substring(3);
+        this.apodo = this.nombre.Substring(0,3);
         this.dia = generarRandom(1,28);
         this.mes = generarRandom(1,12);
         this.anio = generarRandom(1722,2022);
