@@ -1,14 +1,38 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+// List<Personaje> EquipoUno = new List<Personaje>();
+// List<Personaje> EquipoDos = new List<Personaje>();
+// EquipoUno = cargarEquipo(EquipoUno);
+// EquipoDos = cargarEquipo(EquipoDos);
+// mostrarEquipo(EquipoUno);
+// mostrarEquipo(EquipoDos);
 
-Personaje a = new Personaje();
-mostrarDatos(a);
-mostrarCaracteristicas(a);
+Personaje a  = new Personaje();
+Personaje b = new Personaje();
+mostrarDatos(b);
+mostrarCaracteristicas(b);
 
+ataque(a,b);
+System.Console.WriteLine("POST ATAQUE");
+mostrarDatos(b);
+mostrarCaracteristicas(b);
 
-
-
-
+List<Personaje> cargarEquipo(List<Personaje> Lista) {
+    for (int i = 0; i < 5; i++)
+    {
+        Lista.Add(new Personaje());
+    }
+    return Lista;
+}
+void mostrarEquipo(List<Personaje> Lista) {
+    foreach (Personaje P in Lista)
+    {
+        System.Console.WriteLine("---DATOS---");
+        mostrarDatos(P);
+        System.Console.WriteLine("---CARACTERISTICAS---");
+        mostrarCaracteristicas(P);
+    }
+}
 void mostrarDatos(Personaje P) {
     System.Console.WriteLine("Mi nombre es " + P.Nombre);
     System.Console.WriteLine("Soy " + P.Tipo);
@@ -23,6 +47,24 @@ void mostrarCaracteristicas(Personaje P) {
     System.Console.WriteLine("Fuerza: " + P.Fuerza  + "/10");
     System.Console.WriteLine("Nivel : " + P.Nivel + "/10");
     System.Console.WriteLine("Armadura: " + P.Armadura + "/10");
+}
+ 
+void combate(Personaje L, Personaje V) {
+    for (int i = 0; i < 3; i++)
+    {
+        ataque(L,V);
+        ataque(V,L);
+    }
+}
+
+void ataque(Personaje L, Personaje V) {
+    double PD = L.Destreza * L.Fuerza * L.Nivel;
+    double ED = new Random().Next(1,100);
+    double VA = PD * ED;
+    double PDEF = V.Armadura * V.Velocidad;
+    int MDP = 50000;
+    double DP = (VA * ED - PDEF) / (MDP) * 100;
+    V.Salud = DP;
 }
 class Caracteristicas {
     
@@ -41,26 +83,36 @@ class Caracteristicas {
     public int Velocidad {
         get{
             return velocidad; 
+        } set {
+            velocidad = value;
         }
     }
     public int Destreza {
         get{
             return destreza;; 
+        }set {
+            destreza = value;
         }
     }
     public int Fuerza {
         get{
             return fuerza; 
+        } set {
+            fuerza = value;
         }
     }
     public int Nivel {
         get{
             return nivel; 
+        } set {
+            nivel = value;
         }
     }
     public int Armadura {
         get{
             return armadura; 
+        } set {
+            armadura = value;
         }
     }
     
@@ -74,7 +126,7 @@ class Personaje:Caracteristicas {
     private int dia, mes, anio;
     private DateTime fechaNac;
     private int edad;
-    private int salud;
+    private double salud;
 
     public Personaje() {
         this.nombre = nombresPosibles[generarRandom(0,6)];
@@ -108,9 +160,11 @@ class Personaje:Caracteristicas {
             return fechaNac;
         }
     }
-    public int Salud {
+    public double Salud {
         get {
             return salud;
+        } set {
+            salud = value;
         }
     }
     public int Edad {
