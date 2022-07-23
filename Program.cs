@@ -1,21 +1,43 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-// List<Personaje> EquipoUno = new List<Personaje>();
-// List<Personaje> EquipoDos = new List<Personaje>();
-// EquipoUno = cargarEquipo(EquipoUno);
-// EquipoDos = cargarEquipo(EquipoDos);
-// mostrarEquipo(EquipoUno);
-// mostrarEquipo(EquipoDos);
+List<Personaje> EquipoUno = new List<Personaje>();
+List<Personaje> EquipoDos = new List<Personaje>();
+Personaje Ganador;
 
-Personaje a  = new Personaje();
-Personaje b = new Personaje();
-mostrarDatos(b);
-mostrarCaracteristicas(b);
+EquipoUno = cargarEquipo(EquipoUno);
+EquipoDos = cargarEquipo(EquipoDos);
+int ronda = 0;
 
-ataque(a,b);
-System.Console.WriteLine("POST ATAQUE");
-mostrarDatos(b);
-mostrarCaracteristicas(b);
+while (EquipoUno.Count > 0 && EquipoDos.Count > 0)
+{
+    ronda += 1;
+    combate(EquipoUno,EquipoDos,EquipoUno[0],EquipoDos[0]);
+}
+
+if (EquipoUno.Count == 0)
+{
+    Ganador = EquipoDos[0];
+} else {
+    Ganador = EquipoUno[0];
+}
+
+System.Console.WriteLine("TENEMOS UN GANADOR! EN LA RONDA " + ronda);
+mostrarDatos(Ganador);
+mostrarCaracteristicas(Ganador);
+System.Console.WriteLine("E1: "+ EquipoUno.Count);
+System.Console.WriteLine("E2: "+ EquipoDos.Count);
+
+
+
+// Personaje a  = new Personaje();
+// Personaje b = new Personaje();
+// mostrarDatos(b);
+// mostrarCaracteristicas(b);
+
+// ataque(a,b);
+// System.Console.WriteLine("POST ATAQUE");
+// mostrarDatos(b);
+// mostrarCaracteristicas(b);
 
 List<Personaje> cargarEquipo(List<Personaje> Lista) {
     for (int i = 0; i < 5; i++)
@@ -49,7 +71,7 @@ void mostrarCaracteristicas(Personaje P) {
     System.Console.WriteLine("Armadura: " + P.Armadura + "/10");
 }
  
-void combate(List<Personaje> Lista, Personaje L, Personaje V) {
+void combate(List<Personaje> ListaL,List<Personaje> Listav, Personaje L, Personaje V) {
     do
     {
         for (int i = 0; i < 3; i++)
@@ -61,16 +83,16 @@ void combate(List<Personaje> Lista, Personaje L, Personaje V) {
     
     if (L.Salud > V.Salud )
     {
-        Lista.Remove(V);
+        Listav.Remove(V);
         bonusGanador(L);
     } else {
-        Lista.Remove(L);
+        ListaL.Remove(L);
         bonusGanador(V);
     }
 }
 
 void bonusGanador(Personaje P) {
-        P.Salud += 25;
+        P.Salud += 5;
         P.Fuerza += new Random().Next(5,10);
         P.Armadura += new Random().Next(1,3);
         P.Destreza += new Random().Next(1,3);
@@ -83,9 +105,9 @@ void ataque(Personaje L, Personaje V) {
     double ED = new Random().Next(1,100);
     double VA = PD * ED;
     double PDEF = V.Armadura * V.Velocidad;
-    int MDP = 50000;
-    double DP = (VA * ED - PDEF) / (MDP) * 100;
-    V.Salud = DP;
+    int MDP = new Random().Next(1,50000) ;
+    double DP = (VA * ED - PDEF) / (MDP)  ;
+    V.Salud -= DP;
 }
 class Caracteristicas {
     
@@ -215,6 +237,7 @@ class Personaje:Caracteristicas {
         get {
             return salud;
         } set {
+            
             if (value < 0)
             {
                 salud = 0;
@@ -225,8 +248,8 @@ class Personaje:Caracteristicas {
                 } else {
                     salud = value; 
                 }
-               
-            }
+            } 
+            
             
         }
     }
